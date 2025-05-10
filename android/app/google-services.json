@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "651948655068",
+    "project_id": "kodichap-a96b4",
+    "storage_bucket": "kodichap-a96b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651948655068:android:a2a29942ac7ac838730f19",
+        "android_client_info": {
+          "package_name": "com.example.kodichap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8zBkXOMsNKj-YJmOd0bJfDpse4_YSGRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

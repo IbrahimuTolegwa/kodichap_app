@@ -1,14 +1,17 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:kodichap/screens/homepage.dart';
+import 'authentication/registrationpage.dart';
 
-void main(){
-  runApp(kodichap());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const KodichapApp());
 }
 
-class kodichap extends StatelessWidget {
-  const kodichap({super.key});
+class KodichapApp extends StatelessWidget {
+  const KodichapApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +20,20 @@ class kodichap extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: splashscreen(),
+      title: 'Kodichap',
+      home: const SplashScreen(),
     );
   }
 }
 
-class splashscreen extends StatefulWidget {
-  const splashscreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<splashscreen> createState() => _splashscreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _splashscreenState extends State<splashscreen> with TickerProviderStateMixin{
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _textController;
   late AnimationController _fadeController;
@@ -37,38 +41,48 @@ class _splashscreenState extends State<splashscreen> with TickerProviderStateMix
   late Animation<double> _logoAnimation;
   late Animation<double> _textAnimation;
   late Animation<double> _fadeAnimation;
-  
+
   @override
   void initState() {
     super.initState();
-    
-    _logoController = AnimationController(duration: Duration(milliseconds: 1500)
-      ,vsync: this,);
+
+    _logoController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
     _logoAnimation = CurvedAnimation(
-        parent: _logoController,
-        curve: Curves.bounceOut);
+      parent: _logoController,
+      curve: Curves.bounceOut,
+    );
 
-    _textController = AnimationController(duration: Duration(milliseconds: 1500)
-      ,vsync: this,);
+    _textController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
     _textAnimation = CurvedAnimation(
-        parent: _logoController,
-        curve: Curves.bounceOut);
+      parent: _textController,
+      curve: Curves.bounceOut,
+    );
 
-    _fadeController = AnimationController(duration: Duration(milliseconds: 1500)
-      ,vsync: this,);
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_fadeController);
-    
-    _logoController.forward().then((_){
-      _textController.forward().then((_){
+
+    _logoController.forward().then((_) {
+      _textController.forward().then((_) {
         _fadeController.forward();
       });
     });
-    
-    Timer(Duration(seconds: 5), (){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => homepage()));
+
+    Timer(const Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const homepage()),
+      );
     });
   }
-  
+
   @override
   void dispose() {
     _logoController.dispose();
@@ -86,26 +100,35 @@ class _splashscreenState extends State<splashscreen> with TickerProviderStateMix
           mainAxisSize: MainAxisSize.min,
           children: [
             ScaleTransition(
-                scale: _logoAnimation,
-            child: Image.asset('assets/images/logo.png', width: 200,)),
-
-            SizedBox( height: 10,),
-
-            ScaleTransition(scale: _textAnimation,
-            child: Text('kodichap',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.brown,
-            ),),),
-
-            SizedBox(height: 10,),
-
+              scale: _logoAnimation,
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 200,
+              ),
+            ),
+            const SizedBox(height: 10),
+            ScaleTransition(
+              scale: _textAnimation,
+              child: const Text(
+                'pata nyumba yako sasa',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.brown,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             FadeTransition(
-                opacity: _fadeAnimation,
-                child: Text('pata nyums ysko sasa',
-                style: TextStyle(fontSize: 16,
-                color: Colors.brown),)),
+              opacity: _fadeAnimation,
+              child: const Text(
+                'pata nyums ysko sasa',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.brown,
+                ),
+              ),
+            ),
           ],
         ),
       ),
